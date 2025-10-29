@@ -67,12 +67,12 @@ class TestBasicMetrics(unittest.TestCase):
     
     def test_ssim_identical_images(self):
         """Test SSIM with identical images"""
-        result = ssim(self.img1, self.img1, data_range=255, multichannel=False)
+        result = ssim(self.img1, self.img1, data_range=255, channel_axis=None)
         self.assertAlmostEqual(result, 1.0, places=5)
     
     def test_ssim_different_images(self):
         """Test SSIM with different images"""
-        result = ssim(self.img1, self.img2, data_range=255, multichannel=False)
+        result = ssim(self.img1, self.img2, data_range=255, channel_axis=None)
         self.assertGreater(result, -1)
         self.assertLess(result, 1)
     
@@ -86,7 +86,7 @@ class TestBasicMetrics(unittest.TestCase):
         """Test SSIM with color images"""
         img1_color = np.random.rand(100, 100, 3) * 255
         img2_color = img1_color + np.random.randn(100, 100, 3) * 5
-        result = ssim(img1_color, img2_color, data_range=255, multichannel=True)
+        result = ssim(img1_color, img2_color, data_range=255, channel_axis=-1)
         self.assertGreater(result, 0)
         self.assertLessEqual(result, 1)
 
@@ -152,7 +152,7 @@ class TestEdgeCases(unittest.TestCase):
         self.assertEqual(psnr(img_zeros, img_zeros), float('inf'))
         
         # SSIM should be 1
-        result_ssim = ssim(img_zeros, img_zeros, data_range=1.0, multichannel=False)
+        result_ssim = ssim(img_zeros, img_zeros, data_range=1.0, channel_axis=None)
         self.assertAlmostEqual(result_ssim, 1.0, places=5)
     
     def test_different_dtypes(self):

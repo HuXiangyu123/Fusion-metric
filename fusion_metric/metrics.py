@@ -89,7 +89,7 @@ def psnr(img1, img2, data_range=255.0):
     return 10 * np.log10((data_range ** 2) / mse_val)
 
 
-def ssim(img1, img2, data_range=255.0, multichannel=None):
+def ssim(img1, img2, data_range=255.0, channel_axis=None):
     """
     Calculate Structural Similarity Index between two images.
     
@@ -101,8 +101,9 @@ def ssim(img1, img2, data_range=255.0, multichannel=None):
         Second image
     data_range : float
         The data range of the input image (default: 255 for uint8)
-    multichannel : bool, optional
-        Whether to treat the last dimension as channels
+    channel_axis : int, optional
+        If None, the image is assumed to be grayscale. 
+        If not None, specifies the axis of the array that represents channels (typically -1 for the last axis)
         
     Returns:
     --------
@@ -115,11 +116,11 @@ def ssim(img1, img2, data_range=255.0, multichannel=None):
     if img1.shape != img2.shape:
         raise ValueError("Images must have the same shape")
     
-    # Determine if image is multichannel
-    if multichannel is None:
-        multichannel = img1.ndim == 3 and img1.shape[-1] in [3, 4]
+    # Auto-detect channel axis if not specified
+    if channel_axis is None and img1.ndim == 3 and img1.shape[-1] in [3, 4]:
+        channel_axis = -1
     
-    return compare_ssim(img1, img2, data_range=data_range, channel_axis=-1 if multichannel else None)
+    return compare_ssim(img1, img2, data_range=data_range, channel_axis=channel_axis)
 
 
 def entropy(img):

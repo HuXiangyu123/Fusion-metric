@@ -25,7 +25,7 @@ def main():
     mse_value = mse(img1, img2)
     mae_value = mae(img1, img2)
     psnr_value = psnr(img1, img2, data_range=255)
-    ssim_value = ssim(img1, img2, data_range=255, multichannel=False)
+    ssim_value = ssim(img1, img2, data_range=255, channel_axis=None)
     
     print(f"   MSE: {mse_value:.4f}")
     print(f"   MAE: {mae_value:.4f}")
@@ -46,7 +46,7 @@ def main():
     print("\n4. Testing with identical images...")
     mse_identical = mse(img1, img1)
     psnr_identical = psnr(img1, img1)
-    ssim_identical = ssim(img1, img1, data_range=255, multichannel=False)
+    ssim_identical = ssim(img1, img1, data_range=255, channel_axis=None)
     
     print(f"   MSE (identical): {mse_identical:.4f}")
     print(f"   PSNR (identical): {psnr_identical} dB")
@@ -58,7 +58,7 @@ def main():
     img2_color = img1_color + np.random.randn(128, 128, 3) * 5
     
     psnr_color = psnr(img1_color, img2_color, data_range=255)
-    ssim_color = ssim(img1_color, img2_color, data_range=255, multichannel=True)
+    ssim_color = ssim(img1_color, img2_color, data_range=255, channel_axis=-1)
     
     print(f"   Color image shape: {img1_color.shape}")
     print(f"   PSNR (color): {psnr_color:.4f} dB")

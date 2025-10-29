@@ -84,11 +84,11 @@ img2 = np.array(Image.open('image2.png'))
 # For grayscale images
 if len(img1.shape) == 2:
     psnr_value = psnr(img1, img2, data_range=255)
-    ssim_value = ssim(img1, img2, data_range=255, multichannel=False)
+    ssim_value = ssim(img1, img2, data_range=255, channel_axis=None)
 # For color images
 else:
     psnr_value = psnr(img1, img2, data_range=255)
-    ssim_value = ssim(img1, img2, data_range=255, multichannel=True)
+    ssim_value = ssim(img1, img2, data_range=255, channel_axis=-1)
 
 print(f"PSNR: {psnr_value:.4f} dB")
 print(f"SSIM: {ssim_value:.4f}")
@@ -130,7 +130,7 @@ Calculate Peak Signal-to-Noise Ratio between two images.
 **Returns:**
 - `float`: PSNR value in dB
 
-### ssim(img1, img2, data_range=255.0, multichannel=None)
+### ssim(img1, img2, data_range=255.0, channel_axis=None)
 
 Calculate Structural Similarity Index between two images.
 
@@ -138,7 +138,7 @@ Calculate Structural Similarity Index between two images.
 - `img1` (numpy.ndarray): First image
 - `img2` (numpy.ndarray): Second image
 - `data_range` (float): The data range of the input image (default: 255 for uint8)
-- `multichannel` (bool, optional): Whether to treat the last dimension as channels
+- `channel_axis` (int, optional): If None, the image is assumed to be grayscale. If not None, specifies the axis of the array that represents channels (typically -1 for the last axis)
 
 **Returns:**
 - `float`: SSIM value between -1 and 1 (1 means identical)
