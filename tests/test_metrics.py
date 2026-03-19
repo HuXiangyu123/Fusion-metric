@@ -4,7 +4,7 @@ Unit tests for fusion_metric package
 
 import unittest
 import numpy as np
-from fusion_metric import mse, mae, psnr, ssim, entropy, mutual_information
+from fusion_metric import mse, mae, rmse, psnr, ssim, entropy, mutual_information
 
 
 class TestBasicMetrics(unittest.TestCase):
@@ -47,6 +47,22 @@ class TestBasicMetrics(unittest.TestCase):
         img_small = np.random.rand(50, 50) * 255
         with self.assertRaises(ValueError):
             mae(self.img1, img_small)
+
+    def test_rmse_identical_images(self):
+        """Test RMSE with identical images"""
+        result = rmse(self.img1, self.img1)
+        self.assertAlmostEqual(result, 0.0, places=10)
+
+    def test_rmse_matches_mse_square_root(self):
+        """Test RMSE is the square root of MSE"""
+        result = rmse(self.img1, self.img2)
+        self.assertAlmostEqual(result, np.sqrt(mse(self.img1, self.img2)), places=10)
+
+    def test_rmse_shape_mismatch(self):
+        """Test RMSE raises error for mismatched shapes"""
+        img_small = np.random.rand(50, 50) * 255
+        with self.assertRaises(ValueError):
+            rmse(self.img1, img_small)
     
     def test_psnr_identical_images(self):
         """Test PSNR with identical images"""
@@ -147,6 +163,7 @@ class TestEdgeCases(unittest.TestCase):
         # MSE and MAE should be 0
         self.assertEqual(mse(img_zeros, img_zeros), 0.0)
         self.assertEqual(mae(img_zeros, img_zeros), 0.0)
+        self.assertEqual(rmse(img_zeros, img_zeros), 0.0)
         
         # PSNR should be inf
         self.assertEqual(psnr(img_zeros, img_zeros), float('inf'))

@@ -4,7 +4,7 @@ Self-build metric for image fusion evaluation.
 
 ## Overview
 
-Fusion-metric is a Python library that provides basic benchmark metrics for evaluating image fusion quality. It includes commonly used metrics such as PSNR, SSIM, MSE, MAE, Entropy, and Mutual Information.
+Fusion-metric is a Python library that provides basic benchmark metrics for evaluating image fusion quality. It includes commonly used metrics such as PSNR, SSIM, MSE, RMSE, MAE, Entropy, and Mutual Information.
 
 ## Installation
 
@@ -29,6 +29,7 @@ pip install -e .
 ### Basic Metrics
 
 - **MSE (Mean Squared Error)**: Measures the average squared difference between pixels
+- **RMSE (Root Mean Squared Error)**: Measures the square root of the average squared difference between pixels
 - **MAE (Mean Absolute Error)**: Measures the average absolute difference between pixels
 - **PSNR (Peak Signal-to-Noise Ratio)**: Ratio between maximum possible power and corrupting noise power
 - **SSIM (Structural Similarity Index)**: Measures structural similarity between images
@@ -44,7 +45,7 @@ pip install -e .
 
 ```python
 import numpy as np
-from fusion_metric import mse, mae, psnr, ssim, entropy, mutual_information
+from fusion_metric import mse, mae, rmse, psnr, ssim, entropy, mutual_information
 
 # Create sample images (or load your own)
 img1 = np.random.rand(256, 256) * 255
@@ -53,11 +54,13 @@ img2 = np.random.rand(256, 256) * 255
 # Calculate metrics
 mse_value = mse(img1, img2)
 mae_value = mae(img1, img2)
+rmse_value = rmse(img1, img2)
 psnr_value = psnr(img1, img2)
 ssim_value = ssim(img1, img2)
 
 print(f"MSE: {mse_value:.4f}")
 print(f"MAE: {mae_value:.4f}")
+print(f"RMSE: {rmse_value:.4f}")
 print(f"PSNR: {psnr_value:.4f} dB")
 print(f"SSIM: {ssim_value:.4f}")
 
@@ -117,6 +120,17 @@ Calculate Mean Absolute Error between two images.
 
 **Returns:**
 - `float`: Mean Absolute Error value
+
+### rmse(img1, img2)
+
+Calculate Root Mean Squared Error between two images.
+
+**Parameters:**
+- `img1` (numpy.ndarray): First image
+- `img2` (numpy.ndarray): Second image
+
+**Returns:**
+- `float`: Root Mean Squared Error value
 
 ### psnr(img1, img2, data_range=255.0)
 
