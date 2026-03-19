@@ -57,6 +57,25 @@ def mae(img1, img2):
     return np.mean(np.abs(img1 - img2))
 
 
+def rmse(img1, img2):
+    """
+    Calculate Root Mean Squared Error between two images.
+
+    Parameters:
+    -----------
+    img1 : numpy.ndarray
+        First image
+    img2 : numpy.ndarray
+        Second image
+
+    Returns:
+    --------
+    float
+        Root Mean Squared Error
+    """
+    return np.sqrt(mse(img1, img2))
+
+
 def psnr(img1, img2, data_range=255.0):
     """
     Calculate Peak Signal-to-Noise Ratio between two images.
